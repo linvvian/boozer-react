@@ -7,7 +7,7 @@ import AddCocktailForm  from './AddCocktailForm'
 const CocktailRouter = () => {
   return(
     <Switch>
-      <Route exact path='/cocktails/new' render={props => <AddCocktailForm {...props}/>} />
+      <Route exact path='/cocktails/new' component={AddCocktailForm} />
       <Route path='/cocktails/:cocktailId' render={props => <CocktailDetails {...props}/>} />
     </Switch>
   )

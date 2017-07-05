@@ -7,12 +7,13 @@ class CocktailDetails extends Component{
     isNotFound: false,
   }
 
-  fetchCocktails(){
+  fetchCocktails(nextProps){
     const baseURL = 'http://localhost:3000/api/v1/cocktails/'
-    fetch(baseURL + this.props.match.params.cocktailId)
+    fetch(baseURL + nextProps.match.params.cocktailId)
     .then(res => res.json())
     .then(jsonRes => {
       this.setState({
+        ...this.state,
         cocktail: {...jsonRes},
         isNotFound: false,
       })
@@ -25,20 +26,20 @@ class CocktailDetails extends Component{
     })
   }
 
+  componentWillReceiveProps(nextProps){
+    this.fetchCocktails(nextProps)
+  }
+
+  componentWillMount(){
+    this.fetchCocktails(this.props)
+  }
+
   shouldComponentUpdate(nextProps, nextState){
     return (this.state.cocktail !== nextState.cocktail)
   }
 
-  componentWillMount(){
-    this.fetchCocktails()
-  }
-
-  componentWillUpdate(){
-    this.fetchCocktails()
-  }
-
   loading(){
-    if (this.state.cocktail && !this.state.isNotFound) {
+    if (this.state.cocktail) {
       return <Cocktail {...this.state.cocktail} />
     } else {
       console.log('Error')
